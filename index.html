@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EveFest Tour 2025 - El regreso de Chinarro</title>
+    <style>
+        body {
+            background-color: pink;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: fuchsia;
+            text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+            font-size: 32px;
+            padding: 10px;
+        }
+        .event-info {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        #queue {
+            background-color: white;
+            padding: 20px;
+            margin: auto;
+            width: 350px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+            position: relative;
+        }
+        .progress-container {
+            width: 90%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin: 15px auto;
+            padding: 5px;
+            box-sizing: border-box;
+            overflow: hidden;
+            position: relative;
+        }
+        .progress-bar {
+            width: 0%;
+            height: 20px;
+            background-color: fuchsia;
+            border-radius: 5px;
+            transition: width 0.2s linear;
+        }
+        #time-remaining {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        #access-button {
+            display: none;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background-color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .after-info {
+            background-color: white;
+            padding: 15px;
+            margin: auto;
+            width: 350px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        footer {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: black;
+            color: white;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>EveFest Tour 2025 - El regreso de Chinarro</h1>
+    
+    <div class="event-info">
+        <p>📅 Fecha: 29/05</p>
+        <p>📍 Ubicación: Estadio Nacional</p>
+        <p>⏰ Hora Inicio: 8:00 pm</p>
+        <p>⏳ Hora Fin: 9:00 am</p>
+    </div>
+
+    <div id="queue">
+        <h2>Tu lugar en la fila</h2>
+        <p id="position">Procesando...</p>
+        <p id="time-remaining">Tiempo estimado: Calculando...</p>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <button id="access-button" onclick="window.location.href='https://docs.google.com/forms/d/e/1FAIpQLSfVmSN99wNm4dqBsw1vrLv3QHiS-mSdyPzz3Awi7NEAReM_2g/viewform?usp=dialog'">¡Reserva Ya!</button>
+    </div>
+
+    <div class="after-info">
+        <p>After 1: Edificio Tempo Dpto 406</p>
+        <p>After 2: Gregorio Escobedo 560</p>
+    </div>
+
+    <footer>
+        <p>Toda certificación es gratuita y se realizará bajo las buenas prácticas de la Chapter de Calidad, aplican Términos y condiciones.</p>
+        <p>✅ Permitido el beso de 3 a más</p>
+        <p>🚨 ¡Importante! Se debe hacer cola para bailar con la cumpleañera</p>
+    </footer>
+
+    <script>
+        function updateQueuePosition() {
+            let initialPosition = Math.floor(Math.random() * 100) + 50; // Número inicial en la fila (entre 50 y 150)
+            let waitTime = Math.floor(Math.random() * 20) + 10; // Tiempo estimado de 10 a 30 minutos
+
+            document.getElementById("position").innerText = "Número: " + initialPosition;
+            document.getElementById("time-remaining").innerText = "Tiempo estimado: " + waitTime + " minutos";
+
+            let progressBar = document.getElementById("progress-bar");
+            let accessButton = document.getElementById("access-button");
+            let currentWidth = 0;
+
+            let interval = setInterval(() => {
+                currentWidth += 100 / (waitTime * 5); // La barra avanza más rápido
+                if (currentWidth > 100) currentWidth = 100;
+                progressBar.style.width = currentWidth + "%";
+
+                waitTime -= 0.2; // Reducción más rápida
+                initialPosition = Math.max(initialPosition - 2, 0); // Baja más rápido el número pero no llega a negativo
+
+                if (initialPosition === 0 && waitTime <= 0) {
+                    clearInterval(interval);
+                    document.getElementById("time-remaining").innerText = "¡Tu turno ha llegado!";
+                    document.getElementById("position").innerText = "Número: 0"; // Indica que ya se puede acceder
+                    accessButton.style.display = "block"; // Se muestra SOLO cuando la fila y el tiempo llegan a cero
+                } else {
+                    document.getElementById("time-remaining").innerText = "Tiempo estimado: " + Math.ceil(waitTime) + " minutos";
+                    document.getElementById("position").innerText = "Número: " + initialPosition;
+                }
+            }, 200); // Ahora el contador baja cada 200ms
+        }
+
+        updateQueuePosition();
+    </script>
+
+</body>
+</html>
